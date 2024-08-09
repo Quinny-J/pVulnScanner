@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hijack.Network - Cybersecurity Check</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        body {
+            background-color: #1a202c;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .status-message {
+            display: none;
+        }
+
+        .card {
+            background-color: #2d3748;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card p {
+            color: #e2e8f0;
+        }
+
+        .tab-buttons {
+            cursor: pointer;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+    <script>
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+            document.querySelectorAll('.tab-buttons').forEach(btn => {
+                btn.classList.remove('bg-blue-700', 'text-white');
+                btn.classList.add('bg-gray-800', 'text-gray-400');
+            });
+            document.querySelector(`[data-tab="${tabId}"]`).classList.add('bg-blue-700', 'text-white');
+        }
+
+        function showLoading() {
+            document.getElementById('loading-message').style.display = 'block';
+        }
+
+        window.onload = function() {
+            showTab('xss-results');
+        };
+    </script>
+</head>
+<body class="text-gray-200">
+    <div class="flex flex-col items-center justify-start min-h-screen p-4">
+        <div class="text-center w-full max-w-4xl">
+            <h1 class="text-4xl font-bold mb-8 fade-in">Hijack.Network</h1>
+            <p class="mb-4 text-lg">Enter your website below to check for known exploits:</p>
+            <form action="/" method="POST" onsubmit="showLoading()" class="mb-6">
+                <input type="text" name="website" placeholder="https://example.com" class="p-2 rounded text-gray-800 w-full max-w-md mx-auto" required>
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2">
+                    Check Now
+                </button>
+            </form>
+            <div id="loading-message" class="status-message text-white bg-blue-500 p-4 rounded mb-4">
+                Please wait for the results...
+            </div>
+            {% if xss_results or sql_results %}
+                <div class="mb-6">
+                    <div class="flex justify-center mb-4">
+                        <button onclick="showTab('xss-results')" class="tab-buttons bg-gray-800 text-gray-400 font-bold py-2 px-4 rounded-l-lg" data-tab="xss-results">
+                            XSS Results
+                        </button>
+                        <button onclick="showTab('sql-results')" class="tab-buttons bg-gray-800 text-gray-400 font-bold py-2 px-4 rounded-r-lg" data-tab="sql-results">
+                            SQL Results
+                        </button>
+                    </div>
+                    <div id="xss-results" class="tab-content">
+                        <h2 class="text-2xl font-semibold mb-4">XSS Scan Results:</h2>
+                        {% for result in xss_results %}
+                            <div class="card fade-in">
+                                <h3 class="text-xl font-bold">{{ result.name }}</h3>
+                                <p class="mb-2">{{ result.payload }}</p>
+                                <a href="{{ result.url }}" target="_blank" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                    Visit Payload
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div id="sql-results" class="tab-content">
+                        <h2 class="text-2xl font-semibold mb-4">SQL Injection Scan Results:</h2>
+                        {% for result in sql_results %}
+                            <div class="card fade-in">
+                                <h3 class="text-xl font-bold">{{ result.name }}</h3>
+                                <p class="mb-2">{{ result.payload }}</p>
+                                <a href="{{ result.url }}" target="_blank" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                    Visit Payload
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
