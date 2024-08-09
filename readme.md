@@ -1,6 +1,6 @@
 # 📜 pVulnScanner
 
-A web-based vulnerability scanner that can for website vulnerability's
+ A web-based vulnerability scanner that can scan for website vulnerability's
 
 ## ✨ Features
 
