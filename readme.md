@@ -58,6 +58,13 @@ pVulnScanner/
 
 3. **Scan for XSS and SQL Vulns using the web interface.**
 
+## Images
+![PICTURE](https://raw.githubusercontent.com/Quinny-J/pVulnScanner/main/main.png)
+![PICTURE](https://raw.githubusercontent.com/Quinny-J/pVulnScanner/main/main2.png)
+![PICTURE](https://raw.githubusercontent.com/Quinny-J/pVulnScanner/main/2nd.png)
+![PICTURE](https://raw.githubusercontent.com/Quinny-J/pVulnScanner/main/3rd.png)
+
+
 ## 🎨 Styling
 
 This project uses [Tailwind CSS](https://tailwindcss.com/) for styling. The CSS is included via CDN for simplicity.
